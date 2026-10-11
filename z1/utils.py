@@ -1,6 +1,7 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 
+# Wczytywanie macierzy z pliku
 def load_matrix(filename):
     matrix = []
     with open(filename, 'r') as file:
@@ -9,11 +10,14 @@ def load_matrix(filename):
             matrix.append(row)
     return matrix
 
+# Wypisywanie macierzy
 def print_matrix(matrix):
     n = len(matrix)
     for i in range(n):
         print(f" {str(i).rjust(3)} | {matrix[i]}")
 
+
+# Rysowanie grafu
 def draw_graph(adj_matrix, title):
     G = nx.Graph()
     n = len(adj_matrix)
