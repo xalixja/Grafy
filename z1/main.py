@@ -136,23 +136,30 @@ while True:
         filename = input("Podaj nazwę pliku: ")
         try:
             data = load_matrix(filename)
-            rows = len(data)
-            cols = len(data[0]) if all(len(w) == len(data[0]) for w in data) else -1
-            if rows == cols:
-                print("\nWykryto macierz sąsiedztwa")
+            print("\nJaki format danych znajduje się w pliku?")
+            print("1. Macierz sąsiedztwa")
+            print("2. Macierz incydencji")
+            print("3. Lista sąsiedztwa")
+            format = input("Wybierz format (1-3): ")
+
+            if format == '1':
                 adj_matrix = data
                 adj_list = adj_matrix_to_adj_list(adj_matrix)
-                inc_matrix = adj_matrix_to_inc_matrix(adj_matrix)
-            elif cols > 0 and rows != cols:
-                print("\nWykryto macierz incydencji")
+                inc_matrix = adj_matrix_to_inc_matrix(adj_matrix)    
+            elif format == '2':
                 inc_matrix = data
                 adj_matrix = inc_matrix_to_adj_matrix(inc_matrix)
                 adj_list = adj_matrix_to_adj_list(adj_matrix)
-            else:
-                print("\nWykryto listę sąsiedztwa")
-                adj_list = data 
+            elif format == '3':
+                adj_list = [row[1:] for row in data]
+                print(adj_list)
                 inc_matrix = adj_list_to_inc_matrix(adj_list)
                 adj_matrix = inc_matrix_to_adj_matrix(inc_matrix)
+            else:
+                print("Błąd: Nieznany wybór formatu. Powrót do menu głównego.")
+                continue
+
+            
             print("\n--- Macierz sąsiedztwa ---")
             print_matrix(adj_matrix)
             print("\n--- Lista sąsiedztwa ---")
@@ -166,6 +173,7 @@ while True:
             print(f"Błąd: Nie znaleziono pliku '{filename}'.")
         except Exception as e:
             print(f"Wystąpił błąd podczas wczytywania: {e}")
+            
     elif choice == '2':
         try:
             n = int(input("Podaj liczbę wierzchołków (n): "))
