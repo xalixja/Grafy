@@ -1,0 +1,23 @@
+# Skompilowane pliki Pythona
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Środowiska wirtualne
+venv/
+env/
+.env
+
+# Pliki konfiguracyjne edytorów (IDE)
+.vscode/
+.idea/
+*.swp
+
+# Pliki systemowe (Windows / macOS)
+.DS_Store
+Thumbs.db
+
+# Ignoruj wygenerowane wykresy
+*.png
+*.pdf
