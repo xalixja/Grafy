@@ -14,8 +14,9 @@ def circle_positions(n, radius=1.0):
     }
 
 
-def draw_graph(adj_list, title):
-    """adj_list: list[set[int]] - the shared graph representation."""
+def draw_graph(adj_list, title, node_colors=None):
+    """adj_list: list[set[int]] - the shared graph representation.
+    node_colors: optional list with one matplotlib color per vertex (default: all pink)."""
     G = nx.Graph()
     n = len(adj_list)
 
@@ -30,7 +31,7 @@ def draw_graph(adj_list, title):
     fig, ax = plt.subplots()
     ax.add_patch(plt.Circle((0, 0), 1.0, fill=False, linestyle=':', color='red'))
     # Labels 1..n as in the assignment PDFs (vertices are 0-based internally)
-    nx.draw(G, pos, ax=ax, labels={i: i + 1 for i in range(n)}, node_color='pink', node_size=600, font_size=14, edge_color='lightblue')
+    nx.draw(G, pos, ax=ax, labels={i: i + 1 for i in range(n)}, node_color=node_colors if node_colors is not None else 'pink', node_size=600, font_size=14, edge_color='lightblue')
     ax.set_xlim(-1.3, 1.3)
     ax.set_ylim(-1.3, 1.3)
     ax.set_aspect('equal')
