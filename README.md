@@ -28,6 +28,8 @@ Zadania wczytujące graf z pliku wyświetlają ponumerowaną listę plików z `d
 |---|---|
 | `python -m graphs 2 1` | zad. 1: ciąg graficzny (Havel-Hakimi) + konstrukcja grafu |
 | `python -m graphs 2 2` | zad. 2: randomizacja krawędzi z zachowaniem stopni (rysunek przed/po) |
+| `python -m graphs 2 3` | zad. 3: spójne składowe (DFS), największa składowa, rysunek w kolorach składowych |
+| `python -m graphs 2 4` | zad. 4: losowy graf eulerowski + cykl Eulera (algorytm Fleury'ego) |
 
 ## Struktura
 ```
