@@ -33,6 +33,11 @@ def _components_r(nr, v, adj_list, comp):
             _components_r(nr, u, adj_list, comp)
 
 
+def is_connected(adj_list):
+    """True if the whole graph is one connected component (reused by task 4)."""
+    return len(set(components(adj_list))) <= 1
+
+
 def largest_component(comp):
     """Number of the component with the most vertices (the lowest number on a tie)."""
     if not comp:

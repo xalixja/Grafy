@@ -7,7 +7,7 @@ from graphs.set1.task1_representations import print_adj_list
 from graphs.set1.task2_drawing import draw_graph
 from graphs.set2.task1_graphic_sequence import is_and_construct_graphic
 from graphs.set2.task2_randomization import randomize
-from graphs.set2.task3_components import components
+from graphs.set2.task3_components import components, is_connected
 
 # Degree sequence from the Fleury example in the lecture slides
 EXAMPLE_DEGREES = [4, 4, 4, 4, 4, 2, 2]
@@ -39,7 +39,7 @@ def random_euler_graph(n=None, swaps=100, max_tries=1000):
             _, graph = randomize(graph, swaps)
 
         # Euler graph <=> connected and all degrees even
-        if len(set(components(graph))) == 1:
+        if is_connected(graph):
             return degrees, graph
 
     return None, None
