@@ -31,6 +31,7 @@ Zadania wczytujące graf z pliku wyświetlają ponumerowaną listę plików z `d
 | `python -m graphs 2 3` | zad. 3: spójne składowe (DFS), największa składowa, rysunek w kolorach składowych |
 | `python -m graphs 2 4` | zad. 4: losowy graf eulerowski + cykl Eulera (algorytm Fleury'ego) |
 | `python -m graphs 2 5` | zad. 5: losowy graf k-regularny (warunki, Havel-Hakimi, randomizacja) |
+| `python -m graphs 2 6` | zad. 6: sprawdzanie hamiltonowskości grafu (DFS z nawrotami), cykl Hamiltona |
 
 ## Struktura
 ```

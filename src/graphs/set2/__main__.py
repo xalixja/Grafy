@@ -1,6 +1,6 @@
 """Set 2 presentation menu: python -m graphs.set2"""
 from graphs.menu import run_menu
-from graphs.set2 import task1_graphic_sequence, task2_randomization, task3_components, task4_euler, task5_k_regular
+from graphs.set2 import task1_graphic_sequence, task2_randomization, task3_components, task4_euler, task5_k_regular, task6_hamilton
 
 TASKS = {
     "1": ("Zadanie 1: Ciąg graficzny (Havel-Hakimi)", task1_graphic_sequence.demo),
@@ -8,6 +8,7 @@ TASKS = {
     "3": ("Zadanie 3: Spójne składowe (największa składowa)", task3_components.demo),
     "4": ("Zadanie 4: Losowy graf eulerowski + cykl Eulera (Fleury)", task4_euler.demo),
     "5": ("Zadanie 5: Losowy graf k-regularny", task5_k_regular.demo),
+    "6": ("Zadanie 6: Sprawdzanie grafu hamiltonowskiego (DFS + backtracking)", task6_hamilton.demo),
 }
 
 
