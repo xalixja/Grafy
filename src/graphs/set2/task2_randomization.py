@@ -1,5 +1,6 @@
 """Set 2, task 2: randomize a simple graph keeping vertex degrees (edge swaps ab, cd -> ad, bc)."""
 import random
+import matplotlib.pyplot as plt
 
 from graphs.set1.task1_representations import print_adj_list
 from graphs.set1.task2_drawing import draw_graph
@@ -114,3 +115,4 @@ def demo():
 
     draw_graph(before, "Przed randomizacją")
     draw_graph(after, f"Po {swaps} randomizacjach")
+    plt.show(block=True)

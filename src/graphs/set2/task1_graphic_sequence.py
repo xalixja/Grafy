@@ -1,6 +1,7 @@
 """Set 2, task 1: graphic sequence check and graph construction (Havel-Hakimi)."""
 from graphs.set1.task1_representations import adj_list_to_adj_matrix, print_matrix
 from graphs.set1.task2_drawing import draw_graph
+import matplotlib.pyplot as plt
 
 # Graphic sequence from the Set 2 example input (Figure 1(a))
 EXAMPLE_SEQUENCE = [4, 2, 2, 3, 2, 1, 4, 2, 2, 2, 2]
@@ -85,6 +86,9 @@ def demo():
             print("\nWynik: Podany ciąg JEST ciągiem graficznym.")
             print("\nMacierz sąsiedztwa skonstruowanego grafu:")
             print_matrix(adj_list_to_adj_matrix(graph))
+            print("Stopnie wejściowe: ", sequence)
+            print("Stopnie wynikowe:  ", [len(neighbours) for neighbours in graph])
             draw_graph(graph, title="Skonstruowany graf prosty (Zadanie 1)")
+            plt.show(block=True)
         else:
             print("\nWynik: Podany ciąg NIE JEST ciągiem graficznym.")

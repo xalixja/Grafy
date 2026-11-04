@@ -3,6 +3,7 @@ from graphs.set1.task1_representations import print_adj_list
 from graphs.set1.task2_drawing import draw_graph
 from graphs.set2.task1_graphic_sequence import is_and_construct_graphic
 from graphs.set2.task2_randomization import randomize
+import matplotlib.pyplot as plt
 
 
 def check_conditions(n, k):
@@ -70,3 +71,4 @@ def demo():
     print_adj_list(graph)
 
     draw_graph(graph, f"Losowy graf {k}-regularny, n = {n} (po {swaps} randomizacjach)")
+    plt.show(block=True)

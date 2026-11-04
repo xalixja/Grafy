@@ -5,6 +5,7 @@ vertices 0..n-1 (adj[u] = set of neighbours of u). Matrices are only used for in
 """
 from graphs.menu import choose_data_file
 from graphs.set1.task2_drawing import draw_graph
+import matplotlib.pyplot as plt
 
 
 # Read rows of whitespace-separated tokens from a file (blank lines are skipped)
@@ -235,3 +236,4 @@ def demo():
     print_matrix(inc_matrix)
 
     draw_graph(adj_list, f"Wizualizacja grafu z pliku: {filename.name}")
+    plt.show(block=True)

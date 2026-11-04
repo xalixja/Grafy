@@ -1,6 +1,7 @@
 """Set 1, task 3: random graphs G(n, p) and G(n, l). Both return list[set[int]]."""
 import random
 from itertools import combinations
+import matplotlib.pyplot as plt
 
 from graphs.set1.task1_representations import adj_list_to_adj_matrix, print_matrix
 from graphs.set1.task2_drawing import draw_graph
@@ -60,6 +61,7 @@ def demo_gnp():
     print("\n--- Macierz sąsiedztwa G(n, p) ---")
     print_matrix(adj_list_to_adj_matrix(graph))
     draw_graph(graph, f"Wizualizacja G(n={n}, p={p})")
+    plt.show(block=True)
 
 
 def demo_gnl():
@@ -80,3 +82,4 @@ def demo_gnl():
     print("\n--- Macierz sąsiedztwa G(n, l) ---")
     print_matrix(adj_list_to_adj_matrix(graph))
     draw_graph(graph, f"Wizualizacja G(n={n}, l={l})")
+    plt.show(block=True)

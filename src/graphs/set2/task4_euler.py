@@ -2,6 +2,7 @@
 import contextlib
 import io
 import random
+import matplotlib.pyplot as plt
 
 from graphs.set1.task1_representations import print_adj_list
 from graphs.set1.task2_drawing import draw_graph
@@ -115,3 +116,4 @@ def demo():
     print(f"Krawędzi: {edges}, kroków cyklu: {len(cycle) - 1} -> {'OK' if ok else 'BŁĄD!'}")
 
     draw_graph(graph, "Losowy graf eulerowski")
+    plt.show(block=True)

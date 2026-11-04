@@ -97,3 +97,4 @@ def demo():
     print_components(comp)
 
     draw_graph(graph, "Spójne składowe (kolor = numer składowej)", node_colors=component_colors(comp))
+    plt.show(block=True)

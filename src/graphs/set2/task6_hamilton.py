@@ -1,4 +1,4 @@
-"""Zestaw 2, zadanie 6: sprawdzanie hamiltonowskości małych grafów."""
+"""Set 2, task 6: check whether a small graph has a Hamiltonian cycle (DFS + backtracking)."""
 import matplotlib.pyplot as plt
 
 from graphs.menu import choose_data_file
@@ -18,7 +18,7 @@ from graphs.set2.task3_components import is_connected
 from graphs.set2.task4_euler import format_cycle
 from graphs.set2.task5_k_regular import check_conditions, random_k_regular
 
-# Oczekiwany przykładowy cykl: [1 - 2 - 3 - 7 - 4 - 6 - 8 - 5 - 1].
+# Example Hamiltonian cycle: [1 - 2 - 3 - 7 - 4 - 6 - 8 - 5 - 1].
 EXAMPLE_EDGES = (
     (1, 2), (1, 4), (1, 5),
     (2, 3), (2, 5), (2, 6),
@@ -29,6 +29,7 @@ EXAMPLE_EDGES = (
 
 
 def example_graph() -> list[set[int]]:
+    """Build the graph as a 0-based adjacency list."""
     graph = [set() for _ in range(8)]
     for u, v in EXAMPLE_EDGES:
         graph[u - 1].add(v - 1)
@@ -37,23 +38,27 @@ def example_graph() -> list[set[int]]:
 
 
 def find_hamilton_cycle(adj_list: list[set[int]]) -> list[int] | None:
-    """Zwróć cykl Hamiltona [v0, ..., v(n-1), v0] albo None."""
+    """
+    Find a Hamiltonian cycle using DFS with backtracking.
+    adj_list: list[set[int]]
+    Returns: [start, ..., start] (0-based vertices), or None if no cycle exists.
+    """
     n = len(adj_list)
 
-    # Warunki konieczne, które szybko odrzucają część przypadków.
+    # Necessary conditions: at least 3 vertices, minimum degree 2 and connectivity.
     if n < 3 or any(len(neighbours) < 2 for neighbours in adj_list):
         return None
     if not is_connected(adj_list):
         return None
 
+    # Start at vertex 0; path is the current DFS stack.
     start = 0
-    path = [start]            # Stos z aktualną ścieżką.
+    path = [start]
     visited = [False] * n
     visited[start] = True
 
     def dfs(u: int) -> bool:
-        # Jeśli odwiedziliśmy wszystkie wierzchołki, musi istnieć
-        # krawędź zamykająca ścieżkę w cykl.
+        # A path through all vertices is a cycle only if its ends are adjacent.
         if len(path) == n:
             return start in adj_list[u]
 
@@ -65,7 +70,7 @@ def find_hamilton_cycle(adj_list: list[set[int]]) -> list[int] | None:
                 if dfs(v):
                     return True
 
-                # Nawrót: cofnięcie na stosie i odznaczenie wierzchołka.
+                # Backtrack: remove the vertex and allow it in another path.
                 path.pop()
                 visited[v] = False
 
@@ -77,13 +82,13 @@ def find_hamilton_cycle(adj_list: list[set[int]]) -> list[int] | None:
 
 
 def satisfies_dirac(adj_list: list[set[int]]) -> bool:
-    """Wystarczający (niekonieczny) warunek Diraca dla grafu prostego."""
+    """Check Dirac's sufficient (but not necessary) condition for a simple graph."""
     n = len(adj_list)
     return n >= 3 and all(2 * len(neighbours) >= n for neighbours in adj_list)
 
 
 def load_graph_from_file() -> list[set[int]] | None:
-    """Wczytaj trzy reprezentacje grafu przy użyciu parserów z zestawu 1."""
+    """Load an adjacency matrix, incidence matrix or adjacency list using set 1."""
     path = choose_data_file("set2")
     if path is None:
         return None
@@ -114,6 +119,7 @@ def load_graph_from_file() -> list[set[int]] | None:
 
 
 def _read_int(prompt: str, *, minimum: int, default: int | None = None) -> int:
+    """Read an integer with an optional default and lower bound."""
     answer = input(prompt).strip()
     value = int(answer) if answer else default
     if value is None or value < minimum:
@@ -122,6 +128,7 @@ def _read_int(prompt: str, *, minimum: int, default: int | None = None) -> int:
 
 
 def _random_gnp() -> list[set[int]]:
+    """Generate G(n, p) using the generator from set 1, task 3."""
     n = _read_int("Liczba wierzchołków n >= 3 (Enter = 8): ", minimum=3, default=8)
     answer = input("Prawdopodobieństwo krawędzi p z [0, 1] (Enter = 0.4): ").strip()
     p = float(answer) if answer else 0.4
@@ -129,6 +136,7 @@ def _random_gnp() -> list[set[int]]:
 
 
 def _random_k_regular() -> list[set[int]]:
+    """Generate a k-regular graph using set 2, task 5."""
     n = _read_int("Liczba wierzchołków n >= 3 (Enter = 8): ", minimum=3, default=8)
     k = _read_int("Stopień wierzchołków k >= 0 (Enter = 4): ", minimum=0, default=4)
     error = check_conditions(n, k)
@@ -138,7 +146,7 @@ def _random_k_regular() -> list[set[int]]:
 
 
 def demo() -> None:
-    """Sprawdź graf z PDF, pliku, G(n,p) albo generatora k-regularnego."""
+    """Choose a graph, check Hamiltonicity, print the cycle and draw the graph."""
     print("\nWybierz graf(Enter = 1): ")
     print("1. Przykład z instrukcji")
     print("2. Wczytaj graf z pliku")
@@ -179,7 +187,7 @@ def demo() -> None:
     else:
         print("\nWarunek Diraca: NIE SPEŁNIONY (nie rozstrzyga hamiltonowskości).")
 
-    # Nie rozstrzygamy na podstawie samego Diraca: zawsze wykonujemy DFS.
+    # Dirac's condition is not a complete test; always run the DFS search.
     cycle = find_hamilton_cycle(graph)
     if cycle is None:
         print("\nGraf NIE JEST hamiltonowski - brak cyklu Hamiltona.")
