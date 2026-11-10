@@ -33,6 +33,12 @@ Zadania wczytujące graf z pliku wyświetlają ponumerowaną listę plików z `d
 | `python -m graphs 2 5` | zad. 5: losowy graf k-regularny (warunki, Havel-Hakimi, randomizacja) |
 | `python -m graphs 2 6` | zad. 6: sprawdzanie hamiltonowskości grafu (DFS z nawrotami), cykl Hamiltona |
 
+### Zestaw 5
+| komenda | zadanie |
+|---|---|
+| `python -m graphs 5 1` | zad. 1: losowa warstwowa sieć przepływowa (N warstw, 2N dodatkowych łuków, c ∈ [1, 10]), rysunek warstwami |
+| `python -m graphs 5 2` | zad. 2: maksymalny przepływ – Ford-Fulkerson + BFS (Edmonds-Karp), ścieżki krok po kroku, minimalny przekrój |
+
 ## Struktura
 ```
 data/setN/                 dane wejściowe do zestawu N
