@@ -41,34 +41,40 @@ def kosaraju(adj):
     Returns: comp - comp[v] is the number (from 1) of the component of v.
     """
     n = len(adj)
-    d=[-1]*n
-    f=[-1]*n
-    t=0
-    order=[]
+    d = [-1] * n
+    f = [-1] * n
+    t = 0
+    order = []
 
-    for v in adj:
-        t+=1
-        d[v]=t
+    def dfs_visit(v):
+        """Algorithm 2: DFS from v, records entry/finish times and pushes v when finished."""
+        nonlocal t
+        t += 1
+        d[v] = t
         for u in adj[v]:
-            if d[u]==-2:
+            if d[u] == -1:
                 dfs_visit(u)
-            t+=1
-            f[v] = t
-            order.append(v)
+        t += 1
+        f[v] = t
+        order.append(v)
 
+    # first DFS from every unvisited vertex
     for v in range(n):
         if d[v] == -1:
             dfs_visit(v)
 
     gt = transpose(adj)
 
-    for v in gt:
+    def components_r(nr, v):
+        """Algorithm 3: marks everything reachable from v in G^T with component number nr."""
         for u in gt[v]:
             if comp[u] == -1:
                 comp[u] = nr
                 components_r(nr, u)
 
-    comp = [-1] * n; nr = 0
+    # second DFS on G^T in decreasing f[v] (popping from the stack)
+    comp = [-1] * n
+    nr = 0
     for v in reversed(order):
         if comp[v] == -1:
             nr += 1

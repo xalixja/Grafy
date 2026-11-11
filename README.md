@@ -33,6 +33,15 @@ Zadania wczytujące graf z pliku wyświetlają ponumerowaną listę plików z `d
 | `python -m graphs 2 5` | zad. 5: losowy graf k-regularny (warunki, Havel-Hakimi, randomizacja) |
 | `python -m graphs 2 6` | zad. 6: sprawdzanie hamiltonowskości grafu (DFS z nawrotami), cykl Hamiltona |
 
+### Zestaw 4
+| komenda | zadanie |
+|---|---|
+| `python -m graphs 4 1`   | zad. 1: digrafy - reprezentacje (lista, macierz sąsiedztwa, macierz incydencji), losowy G(n, p) |
+| `python -m graphs 4 2`   | zad. 2: silnie spójne składowe (algorytm Kosaraju) |
+| `python -m graphs 4 3`   | zad. 3: losowy silnie spójny digraf z wagami, algorytm Bellmana-Forda |
+| `python -m graphs 4 4`   | zad. 4: macierz odległości (algorytm Johnsona); Enter = przykład z rys. 2, sprawdzany z listingiem 4 |
+| `python -m graphs 4 all` | całość na jednym grafie: G(n, p) -> Kosaraju -> wagi -> Johnson |
+
 ## Struktura
 ```
 data/setN/                 dane wejściowe do zestawu N
