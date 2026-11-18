@@ -38,7 +38,7 @@ def kruskal(graph, weights):
 
     Edges are considered in (weight, u, v) order for deterministic ties.
     Does not modify graph or weights. Raises ValueError for a disconnected
-    or empty graph. Time: O(n + m log m), with near-constant DSU operations.
+    or empty graph.
     """
     n = len(graph)
     if n == 0:

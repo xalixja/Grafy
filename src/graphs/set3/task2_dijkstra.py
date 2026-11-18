@@ -27,7 +27,7 @@ def dijkstra(G, w, s):
 
     G is list[set[int]]; w maps (min(u, v), max(u, v)) to nonnegative weights.
     Unreachable vertices retain distance inf and predecessor None.
-    Minimum selection scans unfinished vertices, giving O(n^2 + m) time.
+    Minimum selection scans unfinished vertices.
     """
     ds, ps = init(G, s)
     for u, neighbours in enumerate(G):
