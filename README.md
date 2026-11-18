@@ -13,6 +13,7 @@ uv run python -m graphs <zestaw> [zadanie]
 uv run python -m graphs 1        # menu zestawu 1
 uv run python -m graphs 1 3a     # zestaw 1, zadanie 3a
 uv run python -m graphs.set2     # menu zestawu 2 (równoważne: python -m graphs 2)
+uv run python -m graphs 3        # menu zestawu 3
 ```
 Zadania wczytujące graf z pliku wyświetlają ponumerowaną listę plików z `data/setN/` (wybór numerem); można też wpisać własną ścieżkę.
 
@@ -32,6 +33,15 @@ Zadania wczytujące graf z pliku wyświetlają ponumerowaną listę plików z `d
 | `python -m graphs 2 4` | zad. 4: losowy graf eulerowski + cykl Eulera (algorytm Fleury'ego) |
 | `python -m graphs 2 5` | zad. 5: losowy graf k-regularny (warunki, Havel-Hakimi, randomizacja) |
 | `python -m graphs 2 6` | zad. 6: sprawdzanie hamiltonowskości grafu (DFS z nawrotami), cykl Hamiltona |
+
+### Zestaw 3
+| komenda | zadanie |
+|---|---|
+| `python -m graphs 3 1` | zad. 1: spójny graf losowy G(n, p), łączenie składowych, wagi krawędzi od 1 do 10 |
+| `python -m graphs 3 2` | zad. 2: algorytm Dijkstry, wszystkie najkrótsze ścieżki od wybranego źródła i ich długości |
+| `python -m graphs 3 3` | zad. 3: macierz odległości między wszystkimi parami wierzchołków (Dijkstra dla każdego źródła) |
+| `python -m graphs 3 4` | zad. 4: centrum grafu (minimalna suma odległości) i centrum minimax (minimalna odległość do najdalszego) |
+| `python -m graphs 3 5` | zad. 5: minimalne drzewo rozpinające (Kruskal, Union-Find), suma wag i wyróżnienie MST na rysunku |
 
 ### Zestaw 4
 | komenda | zadanie |
