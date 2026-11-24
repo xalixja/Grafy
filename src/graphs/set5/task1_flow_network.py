@@ -7,6 +7,7 @@ layers: list of vertex lists, layers[0] = [s], layers[1..N] = intermediate, laye
 Following the lecture definition, two vertices are joined by at most one arc
 (no u -> v together with v -> u), so the random extra arcs never create such a pair.
 """
+import math
 import random
 
 import matplotlib.pyplot as plt
@@ -145,12 +146,83 @@ def random_flow_network(N):
 # ---------- drawing ----------
 
 def layer_positions(layers):
-    """x = layer number, vertices of one layer spread vertically around y = 0."""
+    """Regular grid: x = layer number, vertices of one layer spread vertically around y = 0."""
     pos = {}
     for x, layer in enumerate(layers):
         for j, v in enumerate(layer):
             pos[v] = (x, (len(layer) - 1) / 2 - j)
     return pos
+
+
+def _segment_point_distance(p, a, b):
+    """Distance from point p to segment a-b."""
+    (px, py), (ax, ay), (bx, by) = p, a, b
+    dx, dy = bx - ax, by - ay
+    length2 = dx * dx + dy * dy
+    k = 0 if length2 == 0 else max(0.0, min(1.0, ((px - ax) * dx + (py - ay) * dy) / length2))
+    return math.hypot(px - (ax + k * dx), py - (ay + k * dy))
+
+
+def _segments_cross(a, b, c, d):
+    """Proper crossing of segments a-b and c-d (shared endpoints do not count)."""
+    def orient(p, q, r):
+        return (q[0] - p[0]) * (r[1] - p[1]) - (q[1] - p[1]) * (r[0] - p[0])
+    return (orient(a, b, c) * orient(a, b, d) < 0) and (orient(c, d, a) * orient(c, d, b) < 0)
+
+
+def label_points(pos, arcs, label_pos=0.35):
+    """Where networkx puts each label: label_pos along the arc, measured from the head."""
+    return [(pos[v][0] + label_pos * (pos[u][0] - pos[v][0]),
+             pos[v][1] + label_pos * (pos[u][1] - pos[v][1])) for u, v in arcs]
+
+
+def passes_vertex(pos, u, v, min_distance=0.3):
+    """True if the straight arc u -> v goes right next to some other vertex."""
+    return any(w not in (u, v) and _segment_point_distance(p, pos[u], pos[v]) < min_distance
+               for w, p in pos.items())
+
+
+def layout_penalty(pos, arcs):
+    """Lower = more readable: arcs passing next to other vertices (worst), labels close to each
+    other or lying on another arc, arc crossings. Arcs are approximated by straight segments."""
+    penalty = 10.0 * sum(passes_vertex(pos, u, v) for u, v in arcs)
+    labels = label_points(pos, arcs)
+    for i, (a, b) in enumerate(arcs):
+        for j, (c, d) in enumerate(arcs):
+            if i == j:
+                continue
+            if _segment_point_distance(labels[i], pos[c], pos[d]) < 0.12:
+                penalty += 3  # label i sits on arc j
+            if i < j:
+                if math.dist(labels[i], labels[j]) < 0.4:
+                    penalty += 5
+                if len({a, b, c, d}) == 4 and _segments_cross(pos[a], pos[b], pos[c], pos[d]):
+                    penalty += 1
+    return penalty
+
+
+def irregular_layer_positions(adj, layers, tries=600, seed=0):
+    """Like layer_positions, but vertices are shifted randomly inside their layer
+    (each layer moved up/down, each vertex moved a bit left/right and up/down).
+    Out of `tries` random layouts the one with the lowest layout_penalty is kept.
+    Fixed seed: the same network is always drawn the same way."""
+    rng = random.Random(seed)
+    arcs = [(u, v) for u in range(len(adj)) for v in adj[u]]
+    base = layer_positions(layers)
+    inner = layers[1:-1]  # s and t stay in place
+
+    best, best_penalty = base, layout_penalty(base, arcs)
+    for _ in range(tries):
+        pos = dict(base)
+        for layer in inner:
+            layer_shift = rng.uniform(-0.5, 0.5)
+            for v in layer:
+                x, y = base[v]
+                pos[v] = (x + rng.uniform(-0.25, 0.25), y + layer_shift + rng.uniform(-0.3, 0.3))
+        penalty = layout_penalty(pos, arcs)
+        if penalty < best_penalty:
+            best, best_penalty = pos, penalty
+    return best
 
 
 def draw_flow_network(adj, layers, title, flow=None, source_side=None):
@@ -165,11 +237,11 @@ def draw_flow_network(adj, layers, title, flow=None, source_side=None):
     for u in range(n):
         for v, c in adj[u].items():
             G.add_edge(u, v, c=c)
-    pos = layer_positions(layers)
+    pos = irregular_layer_positions(adj, layers)
 
-    # Arcs between neighbouring layers are straight, the rest are curved so they miss the vertices
-    straight = [(u, v) for u, v in G.edges if layer_of[v] == layer_of[u] + 1]
-    curved = [(u, v) for u, v in G.edges if layer_of[v] != layer_of[u] + 1]
+    # Curved: arcs inside one layer and arcs that would go straight through another vertex
+    curved = [(u, v) for u, v in G.edges if layer_of[u] == layer_of[v] or passes_vertex(pos, u, v)]
+    straight = [e for e in G.edges if e not in curved]
 
     def label(u, v):
         c = adj[u][v]
