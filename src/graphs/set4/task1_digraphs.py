@@ -59,7 +59,7 @@ def print_digraph_adj_list(adj, weighted=False):
         print(f" {str(u + 1).rjust(3)}. {text}")
 
 
-def draw_digraph(adj, title, weighted=False, node_colors=None):
+def draw_digraph(adj, title, weighted=False, node_colors=None, *, node_labels=None, block=False):
     """Circle layout like set 1; arcs are curved so that u->v and v->u do not overlap."""
     n = len(adj)
     G = nx.DiGraph()
@@ -75,7 +75,9 @@ def draw_digraph(adj, title, weighted=False, node_colors=None):
     ax.add_patch(plt.Circle((0, 0), 1.0, fill=False, linestyle=":", color="red"))
     nx.draw_networkx_nodes(G, pos, ax=ax, node_size=600,
                            node_color=node_colors if node_colors is not None else "pink")
-    nx.draw_networkx_labels(G, pos, ax=ax, labels={i: i + 1 for i in range(n)}, font_size=14)
+    if node_labels is None:
+        node_labels = {i: i + 1 for i in range(n)}
+    nx.draw_networkx_labels(G, pos, ax=ax, labels=node_labels, font_size=14)
     nx.draw_networkx_edges(G, pos, ax=ax, arrows=True, arrowstyle="-|>", arrowsize=16,
                            edge_color="steelblue", node_size=600, connectionstyle=style)
     if weighted:
@@ -87,9 +89,9 @@ def draw_digraph(adj, title, weighted=False, node_colors=None):
     ax.set_aspect("equal")
     ax.axis("off")
     fig.suptitle(title, fontsize=14)
-    # Non-blocking, like the rest of the project: the menu returns immediately
-    plt.show(block=False)
-    plt.pause(0.1)
+    plt.show(block=block)
+    if not block:
+        plt.pause(0.1)
 
 
 def random_digraph_gnp(n, p):

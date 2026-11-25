@@ -58,6 +58,16 @@ Zadania wczytujące graf z pliku wyświetlają ponumerowaną listę plików z `d
 | `python -m graphs 5 1` | zad. 1: losowa warstwowa sieć przepływowa (N warstw, 2N dodatkowych łuków, c ∈ [1, 10]), rysunek warstwami |
 | `python -m graphs 5 2` | zad. 2: maksymalny przepływ – Ford-Fulkerson + BFS (Edmonds-Karp), ścieżki krok po kroku, minimalny przekrój |
 
+### Zestaw 6
+| komenda | zadanie |
+|---|---|
+| `uv run python -m graphs 6 1` | PageRank: błądzenie przez milion kroków i metoda potęgowa na tym samym digrafie |
+| `uv run python -m graphs 6 2` | Komiwojażer: symulowane wyżarzanie z 2-opt, długość trasy i wykres w oknie |
+
+Enter wybiera przykładowy plik z `data/set6/`. Można też wpisać ścieżkę do własnego pliku. PageRank przyjmuje listę sąsiedztwa w formacie `A: B, C`, a komiwojażer pary współrzędnych `x y`, po jednej parze w wierszu.
+
+W zadaniu PageRank wpisz `losuj`, aby wygenerować digraf. Podaj liczbę wierzchołków `n` i prawdopodobieństwo łuku `p`. Program dodaje po jednym losowym łuku wierzchołkom, które nie mają wyjścia.
+
 ## Struktura
 ```
 data/setN/                 dane wejściowe do zestawu N
